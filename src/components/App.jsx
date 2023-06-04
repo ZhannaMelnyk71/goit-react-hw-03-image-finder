@@ -29,11 +29,11 @@ class App extends Component {
           this.state.filter
         );
 
-        const arrayPitures = [...itemPicture.data.hits];
+        const arrayPictures = [...itemPicture.data.hits];
         if (prevState.filter !== this.state.filter) {
-          this.setState({ photos: arrayPitures });
+          this.setState({ photos: arrayPictures });
         } else {
-          const newArray = [...this.state.photos, ...arrayPitures];
+          const newArray = [...this.state.photos, ...arrayPictures];
           this.setState({ photos: newArray });
         }
       } catch (error) {
@@ -44,15 +44,17 @@ class App extends Component {
     }
   };
 
+  
   onAddMore = () => {
-    this.setState({ numberPage: this.state.numberPage + 1 });
+    this.setState(prevState => ({ loading: true, numberPage: prevState.numberPage + 1 }));
+    // this.setState({ numberPage: this.state.numberPage + 1 });
   };
 
   onSubmit = e => {
     e.preventDefault();
     const wordForSearch = e.target.elements.search.value.trim();
     if (wordForSearch) {
-      this.setState({ filter: wordForSearch });
+      this.setState({ filter: wordForSearch, numberPage: 1});
     }
   };
 
