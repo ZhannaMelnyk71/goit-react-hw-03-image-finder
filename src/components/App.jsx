@@ -30,6 +30,7 @@ class App extends Component {
         );
 
         const arrayPictures = [...itemPicture.data.hits];
+        // console.log(itemPicture.data.hits.length)
         if (prevState.filter !== this.state.filter) {
           this.setState({ photos: arrayPictures });
         } else {
@@ -60,12 +61,13 @@ class App extends Component {
 
   render() {
     const { photos, loading } = this.state;
+    console.log()
     return (
       <div className={styles.App}>
         <SearchBar onSubmit={this.onSubmit}></SearchBar>
         {loading && <Loader></Loader>}
         {!loading && <ImageGallery photoList={photos}></ImageGallery>}
-        {photos.length > 0 && !loading && (
+        {photos.length !== 0 && !loading && (
           <Button onClick={this.onAddMore}></Button>
         )}
       </div>

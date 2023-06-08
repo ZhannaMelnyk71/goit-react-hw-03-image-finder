@@ -17,5 +17,6 @@ export async function fetchPhoto(number_page, name) {
       },
     }
   );
+
   return response;
 }
