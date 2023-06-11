@@ -15,6 +15,7 @@ class App extends Component {
     filter: '',
     numberPage: 1,
     loading: false,
+    totalPages: 0,
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -30,12 +31,17 @@ class App extends Component {
         );
 
         const arrayPictures = [...itemPicture.data.hits];
+        // if (itemPicture.data.hits.length === 0) {
+        //   return alert ('Sorry image not found...')
+        // }
+
         // console.log(itemPicture.data.hits.length)
         if (prevState.filter !== this.state.filter) {
-          this.setState({ photos: arrayPictures });
+          this.setState({ photos: arrayPictures, totalPages: Math.ceil(itemPicture.data.totalHits / 12) });
         } else {
           const newArray = [...this.state.photos, ...arrayPictures];
-          this.setState({ photos: newArray });
+          this.setState({ photos: newArray, totalPages: Math.ceil(itemPicture.data.totalHits / 12) });
+          // console.log(itemPicture.data.totalHits)
         }
       } catch (error) {
         console.log(error);
@@ -60,14 +66,14 @@ class App extends Component {
   };
 
   render() {
-    const { photos, loading } = this.state;
+    const { photos, loading, totalPages, numberPage } = this.state;
     console.log()
     return (
       <div className={styles.App}>
         <SearchBar onSubmit={this.onSubmit}></SearchBar>
         {loading && <Loader></Loader>}
         {!loading && <ImageGallery photoList={photos}></ImageGallery>}
-        {photos.length !== 0 && !loading && (
+        {photos.length > 0 && totalPages !== numberPage && !loading && (
           <Button onClick={this.onAddMore}></Button>
         )}
       </div>
